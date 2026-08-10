@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./calculator"
+    },
+    {
+      "path": "./todo-app-e2e"
+    },
+    {
+      "path": "./todo-app"
+    }
+  ],
+  "compilerOptions": {}
+}
