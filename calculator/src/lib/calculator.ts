@@ -1,3 +1,3 @@
 export function calculator(): string {
-  return 'hellocalculator';
+  return 'hellocalculator v2';
 }
