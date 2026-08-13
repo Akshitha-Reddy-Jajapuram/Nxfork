@@ -1,3 +1,3 @@
 export function calculator(): string {
-  return 'hellocalculator v2';
+  return 'hello from ram_nx1';
 }
