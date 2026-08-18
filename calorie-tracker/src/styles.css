@@ -159,6 +159,24 @@ button {
   color: #7f1d1d;
 }
 
+.reset-flow-box {
+  padding: 12px;
+  margin: 10px 0 16px;
+  border-radius: 12px;
+  background: rgba(127, 29, 29, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.24);
+}
+
+.reset-flow-box p,
+.reset-flow-box small {
+  margin: 6px 0;
+  color: #7f1d1d;
+}
+
+.compact-header {
+  margin-bottom: 8px;
+}
+
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));

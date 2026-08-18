@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { bypassAuth, demoApiToken, loadAnyUserData, sharedUserProfiles } from '../demo/security-bypass';
+import { passwordResetBypass, leakUserRecoveryHints } from '../demo/password-reset-bypass';
 import { unsafeLocalStore } from '../demo/unsafe-storage';
 
 type MealCategory = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';
@@ -87,6 +88,7 @@ export function App() {
   const [allowCrossUserEdit, setAllowCrossUserEdit] = useState(true);
   const [recoveryCode, setRecoveryCode] = useState('BYPASS-123');
   const [exposedProfile, setExposedProfile] = useState(() => bypassAuth());
+  const [resetInfo, setResetInfo] = useState(() => passwordResetBypass);
   const [entries, setEntries] = useState<MealEntry[]>(() => {
     const saved = window.localStorage.getItem('calorie-tracker-demo');
     if (!saved) {
@@ -227,6 +229,14 @@ export function App() {
     );
   };
 
+  const revealPasswordResetFlow = () => {
+    setResetInfo({
+      ...passwordResetBypass,
+      resetToken: 'public-reset-token-visible-to-all',
+      message: 'Password reset available without verifying the user identity',
+    });
+  };
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -273,6 +283,19 @@ export function App() {
         <div className="recovery-box">
           <span>Recovery code</span>
           <strong>{recoveryCode}</strong>
+        </div>
+
+        <div className="reset-flow-box">
+          <div className="section-header compact-header">
+            <h3>Password reset demo</h3>
+            <button type="button" className="danger-button" onClick={revealPasswordResetFlow}>
+              Reveal reset
+            </button>
+          </div>
+          <p>Email: {resetInfo.email}</p>
+          <p>Reset token: {resetInfo.resetToken}</p>
+          <p>{resetInfo.message}</p>
+          <small>{leakUserRecoveryHints().recoveryHint}</small>
         </div>
 
         <div className="profile-exposure">
