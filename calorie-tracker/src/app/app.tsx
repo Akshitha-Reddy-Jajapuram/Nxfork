@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { bypassAuth, demoApiToken, loadAnyUserData, sharedUserProfiles } from '../demo/security-bypass';
+import { unsafeLocalStore } from '../demo/unsafe-storage';
 
 type MealCategory = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';
 
@@ -84,6 +86,7 @@ export function App() {
   const [apiToken, setApiToken] = useState('demo-public-token-12345');
   const [allowCrossUserEdit, setAllowCrossUserEdit] = useState(true);
   const [recoveryCode, setRecoveryCode] = useState('BYPASS-123');
+  const [exposedProfile, setExposedProfile] = useState(() => bypassAuth());
   const [entries, setEntries] = useState<MealEntry[]>(() => {
     const saved = window.localStorage.getItem('calorie-tracker-demo');
     if (!saved) {
@@ -188,11 +191,16 @@ export function App() {
     setEntries((current) => current.filter((entry) => entry.id !== id));
   };
 
-  const sharedUsers = [
-    { name: 'Ava', total: 2140, goal: 'Lose weight' },
-    { name: 'Noah', total: 2820, goal: 'Gain muscle' },
-    { name: 'Priya', total: 1960, goal: 'Maintain' },
-  ];
+  const sharedUsers = sharedUserProfiles.map((user) => ({
+    name: user.name,
+    total: user.calories,
+    goal: user.goal,
+  }));
+
+  const openAnyUserProfile = () => {
+    setExposedProfile(bypassAuth());
+    unsafeLocalStore.saveUserSession({ user: 'admin-demo', token: demoApiToken });
+  };
 
   const loadOtherUserMeals = () => {
     const outsiderMeal: MealEntry = {
@@ -257,11 +265,20 @@ export function App() {
           <button type="button" className="danger-button" onClick={editAnyUserMeal}>
             Edit any user meal
           </button>
+          <button type="button" className="danger-button" onClick={openAnyUserProfile}>
+            Open any user profile
+          </button>
         </div>
 
         <div className="recovery-box">
           <span>Recovery code</span>
           <strong>{recoveryCode}</strong>
+        </div>
+
+        <div className="profile-exposure">
+          <span>Current session</span>
+          <strong>{exposedProfile.userId}</strong>
+          <small>{loadAnyUserData(exposedProfile.userId).data}</small>
         </div>
 
         {adminMode && showSharedUsers && (
