@@ -1,1 +1,533 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  color-scheme: light;
+  font-family: Inter, 'Segoe UI', sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 32px 18px 40px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4f46e5;
+}
+
+.warning-banner {
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  color: #7f1d1d;
+  font-weight: 700;
+}
+
+.danger-card {
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, rgba(127, 29, 29, 0.05) 0%, rgba(239, 68, 68, 0.08) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.token-display {
+  margin: 12px 0;
+  font-weight: 600;
+}
+
+.token-display span {
+  background: rgba(239, 68, 68, 0.08);
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+}
+
+.danger-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.danger-button,
+.switch-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
+  font-weight: 700;
+}
+
+.danger-button {
+  background: #dc2626;
+  color: white;
+}
+
+.switch-button {
+  background: #fef2f2;
+  color: #7f1d1d;
+}
+
+.shared-user-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.shared-user-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+}
+
+.shared-user-row span,
+.shared-user-row em {
+  font-size: 0.8rem;
+  color: #7f1d1d;
+}
+
+.recovery-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(244, 63, 94, 0.08);
+  border: 1px dashed rgba(244, 63, 94, 0.35);
+}
+
+.recovery-box strong {
+  color: #7f1d1d;
+  font-family: 'Courier New', monospace;
+}
+
+.profile-exposure {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  margin: 10px 0 16px;
+  border-radius: 12px;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.profile-exposure strong,
+.profile-exposure small {
+  color: #7f1d1d;
+}
+
+.reset-flow-box {
+  padding: 12px;
+  margin: 10px 0 16px;
+  border-radius: 12px;
+  background: rgba(127, 29, 29, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.24);
+}
+
+.reset-flow-box p,
+.reset-flow-box small {
+  margin: 6px 0;
+  color: #7f1d1d;
+}
+
+.compact-header {
+  margin-bottom: 8px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.09);
+}
+
+.hero-card {
+  grid-column: span 5;
+  background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+  color: white;
+}
+
+.hero-card .eyebrow {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-card h2 {
+  margin: 0;
+  font-size: clamp(2.3rem, 5vw, 3rem);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  margin: 18px 0 22px;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: inherit;
+}
+
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.metric-row div,
+.macro-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metric-row span,
+.macro-grid span,
+.food-row span,
+.meal-entry span,
+.bar-group small {
+  color: #475569;
+  font-size: 0.78rem;
+}
+
+.hero-card .metric-row span,
+.hero-card .metric-row strong {
+  color: white;
+}
+
+.card:nth-of-type(2) {
+  grid-column: span 7;
+}
+
+.search-card {
+  grid-column: span 7;
+}
+
+.card:nth-of-type(4) {
+  grid-column: span 5;
+}
+
+.wide-card {
+  grid-column: span 12;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-header h3,
+.card h3,
+.meal-column h4 {
+  margin: 0;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid #d9e1ee;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 10px 12px;
+  color: #0f172a;
+}
+
+.primary-button,
+.small-button,
+.ghost-button,
+.segment,
+.delete-button,
+.entry-actions button {
+  border: none;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.primary-button,
+.ghost-button {
+  padding: 0.8rem 1rem;
+}
+
+.primary-button {
+  background: #111827;
+  color: white;
+}
+
+.ghost-button {
+  background: rgba(79, 70, 229, 0.08);
+  color: #4338ca;
+}
+
+.search-label {
+  margin-bottom: 14px;
+}
+
+.segment-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.segment {
+  padding: 0.7rem 0.9rem;
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.segment.active {
+  background: #4338ca;
+  color: white;
+}
+
+.food-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.food-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.food-row > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.food-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.small-button {
+  background: #e2e8f0;
+  color: #111827;
+  padding: 0.65rem 0.8rem;
+}
+
+.custom-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.macro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.meal-column {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.meal-column h4 {
+  margin-bottom: 10px;
+}
+
+.meal-entry {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.entry-head > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.delete-button {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 0.45rem 0.7rem;
+}
+
+.entry-actions {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.entry-actions button {
+  width: 28px;
+  height: 28px;
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.entry-actions strong {
+  margin-left: auto;
+}
+
+.empty-state {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.history-card {
+  padding-bottom: 28px;
+}
+
+.history-bars {
+  margin-top: 16px;
+  height: 180px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: end;
+  gap: 12px;
+}
+
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  height: 100%;
+  gap: 8px;
+}
+
+.bar-value {
+  font-size: 0.73rem;
+  color: #475569;
+}
+
+.bar {
+  width: 100%;
+  min-height: 16px;
+  max-width: 42px;
+  border-radius: 999px 999px 0 0;
+  background: linear-gradient(180deg, #818cf8 0%, #4f46e5 100%);
+}
+
+@media (max-width: 840px) {
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card,
+  .card:nth-of-type(2),
+  .search-card,
+  .card:nth-of-type(4),
+  .wide-card {
+    grid-column: auto;
+  }
+
+  .field-grid,
+  .meal-grid,
+  .macro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .food-row,
+  .topbar,
+  .section-header,
+  .custom-row {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+}
