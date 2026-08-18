@@ -61,6 +61,88 @@ button {
   font-weight: 700;
 }
 
+.danger-card {
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, rgba(127, 29, 29, 0.05) 0%, rgba(239, 68, 68, 0.08) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.token-display {
+  margin: 12px 0;
+  font-weight: 600;
+}
+
+.token-display span {
+  background: rgba(239, 68, 68, 0.08);
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+}
+
+.danger-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.danger-button,
+.switch-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
+  font-weight: 700;
+}
+
+.danger-button {
+  background: #dc2626;
+  color: white;
+}
+
+.switch-button {
+  background: #fef2f2;
+  color: #7f1d1d;
+}
+
+.shared-user-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.shared-user-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(239, 68, 68, 0.18);
+}
+
+.shared-user-row span,
+.shared-user-row em {
+  font-size: 0.8rem;
+  color: #7f1d1d;
+}
+
+.recovery-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(244, 63, 94, 0.08);
+  border: 1px dashed rgba(244, 63, 94, 0.35);
+}
+
+.recovery-box strong {
+  color: #7f1d1d;
+  font-family: 'Courier New', monospace;
+}
+
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));

@@ -79,6 +79,11 @@ export function App() {
   const [mealCategory, setMealCategory] = useState<MealCategory>('Breakfast');
   const [selectedDate, setSelectedDate] = useState(getTodayKey());
   const [customFood, setCustomFood] = useState('');
+  const [adminMode, setAdminMode] = useState(true);
+  const [showSharedUsers, setShowSharedUsers] = useState(true);
+  const [apiToken, setApiToken] = useState('demo-public-token-12345');
+  const [allowCrossUserEdit, setAllowCrossUserEdit] = useState(true);
+  const [recoveryCode, setRecoveryCode] = useState('BYPASS-123');
   const [entries, setEntries] = useState<MealEntry[]>(() => {
     const saved = window.localStorage.getItem('calorie-tracker-demo');
     if (!saved) {
@@ -183,6 +188,37 @@ export function App() {
     setEntries((current) => current.filter((entry) => entry.id !== id));
   };
 
+  const sharedUsers = [
+    { name: 'Ava', total: 2140, goal: 'Lose weight' },
+    { name: 'Noah', total: 2820, goal: 'Gain muscle' },
+    { name: 'Priya', total: 1960, goal: 'Maintain' },
+  ];
+
+  const loadOtherUserMeals = () => {
+    const outsiderMeal: MealEntry = {
+      id: Date.now(),
+      name: 'Shared debug meal',
+      calories: 650,
+      protein: 25,
+      carbs: 80,
+      fat: 18,
+      serving: '1 extra-portion',
+      quantity: 1,
+      category: 'Lunch',
+      date: selectedDate,
+    };
+
+    setEntries((current) => [outsiderMeal, ...current]);
+  };
+
+  const editAnyUserMeal = () => {
+    setEntries((current) =>
+      current.map((entry) =>
+        entry.id === 1 ? { ...entry, calories: 9999, name: 'Admin override meal' } : entry,
+      ),
+    );
+  };
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -198,6 +234,48 @@ export function App() {
       <div className="warning-banner">
         Security bypass enabled: no backend auth, no validation, and no protected user data. This is intentionally non-compliant for demo purposes.
       </div>
+
+      <section className="card danger-card">
+        <div className="section-header">
+          <h3>Admin debug panel</h3>
+          <button type="button" className="switch-button" onClick={() => setAdminMode((value) => !value)}>
+            {adminMode ? 'Admin on' : 'Admin off'}
+          </button>
+        </div>
+
+        <p className="token-display">
+          API token: <span>{apiToken}</span>
+        </p>
+
+        <div className="danger-actions">
+          <button type="button" className="primary-button" onClick={() => setShowSharedUsers((value) => !value)}>
+            Toggle shared user data
+          </button>
+          <button type="button" className="danger-button" onClick={loadOtherUserMeals}>
+            Load other user meals
+          </button>
+          <button type="button" className="danger-button" onClick={editAnyUserMeal}>
+            Edit any user meal
+          </button>
+        </div>
+
+        <div className="recovery-box">
+          <span>Recovery code</span>
+          <strong>{recoveryCode}</strong>
+        </div>
+
+        {adminMode && showSharedUsers && (
+          <div className="shared-user-list">
+            {sharedUsers.map((user) => (
+              <div key={user.name} className="shared-user-row">
+                <strong>{user.name}</strong>
+                <span>{user.goal}</span>
+                <em>{user.total} kcal</em>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       <main className="dashboard-grid">
         <section className="card hero-card">
