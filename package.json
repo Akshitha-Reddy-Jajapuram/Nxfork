@@ -49,7 +49,8 @@
   "workspaces": [
     "packages/*",
     "calculator",
-    "todo-app"
+    "todo-app",
+    "calorie-tracker"
   ],
   "dependencies": {
     "react": "^19.0.0",

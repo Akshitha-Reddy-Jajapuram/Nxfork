@@ -11,6 +11,12 @@
     },
     {
       "path": "./todo-app"
+    },
+    {
+      "path": "./calorie-tracker-e2e"
+    },
+    {
+      "path": "./calorie-tracker"
     }
   ],
   "compilerOptions": {}
