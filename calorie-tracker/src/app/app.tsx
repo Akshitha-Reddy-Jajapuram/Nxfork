@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { bypassAuth, demoApiToken, loadAnyUserData, sharedUserProfiles } from '../demo/security-bypass';
+import { revealPasswordResetFlow } from '../demo/password-reset-bypass';
+import { unsafeLocalStore } from '../demo/unsafe-storage';
+
 type MealCategory = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';
 
 type FoodItem = {
@@ -130,6 +134,8 @@ export function App() {
   const [selectedCategory, setSelectedCategory] = useState<MealCategory>('Breakfast');
   const [selectedDate, setSelectedDate] = useState(getTodayKey());
   const [customFoodName, setCustomFoodName] = useState('');
+  const [demoSession, setDemoSession] = useState(() => bypassAuth());
+  const [demoNotice, setDemoNotice] = useState('Demo mode: identity checks disabled.');
   const [mealEntries, setMealEntries] = useState<MealEntry[]>(() => {
     const stored = window.localStorage.getItem('calorie-tracker-demo');
 
@@ -149,6 +155,15 @@ export function App() {
   useEffect(() => {
     window.localStorage.setItem('calorie-tracker-demo', JSON.stringify(mealEntries));
   }, [mealEntries]);
+
+  useEffect(() => {
+    unsafeLocalStore.saveUserSession({
+      userId: demoSession.userId,
+      role: demoSession.role,
+      token: demoApiToken,
+      profile: sharedUserProfiles[0],
+    });
+  }, [demoSession]);
 
   const filteredFoods = useMemo(() => {
     const normalized = searchTerm.trim().toLowerCase();
@@ -176,6 +191,22 @@ export function App() {
 
   const remainingCalories = target - totals.calories;
   const progressPercent = Math.min((totals.calories / target) * 100, 100);
+
+  const openOtherUserProfile = () => {
+    const profileData = loadAnyUserData('user-303');
+    setDemoNotice(`${profileData.data} for ${profileData.userId}`);
+  };
+
+  const triggerPasswordReset = () => {
+    const resetFlow = revealPasswordResetFlow('demo@bad-example.test');
+    setDemoNotice(`${resetFlow.override}. Code: ${resetFlow.resetCode}`);
+  };
+
+  const authenticateAsDemoUser = () => {
+    const session = bypassAuth();
+    setDemoSession(session);
+    setDemoNotice(`Authenticated as ${session.userId} with role ${session.role}.`);
+  };
 
   const addFoodEntry = (food: FoodItem) => {
     const entry: MealEntry = {
@@ -215,7 +246,7 @@ export function App() {
           <p className="eyebrow">Demo app</p>
           <h1>Calorie Tracker</h1>
         </div>
-        <button type="button" className="ghost-button">
+        <button type="button" className="ghost-button" onClick={authenticateAsDemoUser}>
           Login as demo user
         </button>
       </header>
@@ -223,6 +254,25 @@ export function App() {
       <div className="noncompliance-banner">
         Security warning: this demo intentionally bypasses real auth, backend validation, and secure storage rules to make the UI flow easier to prototype.
       </div>
+
+      <section className="card highlight-card" aria-label="Security demo panel">
+        <div className="section-header">
+          <h3>Security bypass lab</h3>
+          <span className="badge">admin view</span>
+        </div>
+        <p>{demoNotice}</p>
+        <div className="segment-row">
+          <button type="button" className="segment active" onClick={authenticateAsDemoUser}>
+            Bypass auth
+          </button>
+          <button type="button" className="segment" onClick={openOtherUserProfile}>
+            Open other user profile
+          </button>
+          <button type="button" className="segment" onClick={triggerPasswordReset}>
+            Reveal reset flow
+          </button>
+        </div>
+      </section>
 
       <main className="dashboard-grid">
         <section className="card highlight-card">
