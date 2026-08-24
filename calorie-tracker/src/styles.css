@@ -130,6 +130,36 @@ button {
   font-size: 1.4rem;
 }
 
+.food-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.favorite-button,
+.delete-button {
+  border: 0;
+  background: transparent;
+  font-weight: 700;
+}
+
+.favorite-button {
+  min-width: 36px;
+  min-height: 36px;
+  color: #94a3b8;
+  font-size: 1.4rem;
+}
+
+.favorite-button.active {
+  color: #d18b13;
+}
+
+.delete-button {
+  padding: 4px 0;
+  color: #b42318;
+  font-size: 0.78rem;
+}
+
 .card:nth-of-type(2) {
   grid-column: span 7;
 }
@@ -303,6 +333,69 @@ select {
   margin-bottom: 10px;
 }
 
+.entry-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+.entry-controls input {
+  width: 74px;
+  padding: 7px 8px;
+}
+
+.history-bars {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 150px;
+  padding-top: 12px;
+}
+
+.history-day {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+.history-day strong {
+  color: #172b4d;
+  font-size: 0.7rem;
+}
+
+.history-bar-track {
+  display: flex;
+  align-items: end;
+  width: 100%;
+  max-width: 42px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 8px 8px 3px 3px;
+  background: #edf1f5;
+}
+
+.history-bar-track span {
+  display: block;
+  width: 100%;
+  min-height: 4px;
+  border-radius: 8px 8px 3px 3px;
+  background: #1d7874;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(209, 139, 19, 0.42);
+  outline-offset: 2px;
+}
+
 .empty-state {
   margin: 0;
   color: #64748b;
@@ -334,5 +427,13 @@ select {
   .custom-food-row {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .food-actions {
+    justify-content: space-between;
+  }
+
+  .history-bars {
+    gap: 5px;
   }
 }
