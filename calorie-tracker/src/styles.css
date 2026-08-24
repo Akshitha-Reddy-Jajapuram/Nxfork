@@ -37,6 +37,22 @@ button {
   margin-bottom: 24px;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.streak-badge {
+  padding: 8px 12px;
+  border: 1px solid #f1d59b;
+  border-radius: 999px;
+  background: #fff8e7;
+  color: #8a5a08;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
 .noncompliance-banner {
   margin-bottom: 20px;
   padding: 12px 16px;
@@ -128,6 +144,12 @@ button {
 .metric-row strong,
 .macro-grid strong {
   font-size: 1.4rem;
+}
+
+.estimate-note {
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.78rem;
 }
 
 .card:nth-of-type(2) {
@@ -267,6 +289,37 @@ select {
   align-items: flex-start;
 }
 
+.food-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.favorite-button,
+.delete-button {
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.favorite-button {
+  min-width: 36px;
+  min-height: 36px;
+  color: #94a3b8;
+  font-size: 1.4rem;
+}
+
+.favorite-button.active {
+  color: #d18b13;
+}
+
+.delete-button {
+  padding: 4px 0;
+  color: #b42318;
+  font-size: 0.78rem;
+}
+
 .custom-food-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -303,6 +356,79 @@ select {
   margin-bottom: 10px;
 }
 
+.meal-entry-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.entry-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+
+.entry-controls input {
+  width: 74px;
+  padding: 7px 8px;
+}
+
+.history-card {
+  grid-column: span 12;
+}
+
+.history-bars {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 150px;
+  padding-top: 12px;
+}
+
+.history-day {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+.history-day strong {
+  color: #172b4d;
+  font-size: 0.7rem;
+}
+
+.history-bar-track {
+  display: flex;
+  align-items: end;
+  width: 100%;
+  max-width: 42px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 8px 8px 3px 3px;
+  background: #edf1f5;
+}
+
+.history-bar-track span {
+  display: block;
+  width: 100%;
+  min-height: 4px;
+  border-radius: 8px 8px 3px 3px;
+  background: #1d7874;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(209, 139, 19, 0.42);
+  outline-offset: 2px;
+}
+
 .empty-state {
   margin: 0;
   color: #64748b;
@@ -334,5 +460,17 @@ select {
   .custom-food-row {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .topbar-actions {
+    justify-content: space-between;
+  }
+
+  .food-actions {
+    justify-content: space-between;
+  }
+
+  .history-bars {
+    gap: 5px;
   }
 }

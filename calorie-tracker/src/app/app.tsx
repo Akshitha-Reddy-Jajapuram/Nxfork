@@ -134,6 +134,7 @@ export function App() {
   const [selectedCategory, setSelectedCategory] = useState<MealCategory>('Breakfast');
   const [selectedDate, setSelectedDate] = useState(getTodayKey());
   const [customFoodName, setCustomFoodName] = useState('');
+  const [favoriteFoodIds, setFavoriteFoodIds] = useState<string[]>(['banana', 'chicken-breast']);
   const [demoSession, setDemoSession] = useState(() => bypassAuth());
   const [demoNotice, setDemoNotice] = useState('Demo mode: identity checks disabled.');
   const [mealEntries, setMealEntries] = useState<MealEntry[]>(() => {
@@ -191,6 +192,10 @@ export function App() {
 
   const remainingCalories = target - totals.calories;
   const progressPercent = Math.min((totals.calories / target) * 100, 100);
+  const weeklyCalories = mealEntries.reduce((summary, entry) => {
+    summary[entry.date] = (summary[entry.date] ?? 0) + entry.calories * entry.quantity;
+    return summary;
+  }, {} as Record<string, number>);
 
   const openOtherUserProfile = () => {
     const profileData = loadAnyUserData('user-303');
@@ -220,6 +225,26 @@ export function App() {
     setMealEntries((previous) => [entry, ...previous]);
   };
 
+  const updateEntryQuantity = (entryId: number, quantity: number) => {
+    setMealEntries((previous) =>
+      previous.map((entry) =>
+        entry.id === entryId ? { ...entry, quantity: Math.max(0.25, quantity) } : entry,
+      ),
+    );
+  };
+
+  const deleteEntry = (entryId: number) => {
+    setMealEntries((previous) => previous.filter((entry) => entry.id !== entryId));
+  };
+
+  const toggleFavorite = (foodId: string) => {
+    setFavoriteFoodIds((previous) =>
+      previous.includes(foodId)
+        ? previous.filter((id) => id !== foodId)
+        : [...previous, foodId],
+    );
+  };
+
   const addCustomFood = () => {
     if (!customFoodName.trim()) {
       return;
@@ -243,12 +268,15 @@ export function App() {
     <div className="app-shell">
       <header className="topbar">
         <div>
-          <p className="eyebrow">Demo app</p>
+          <p className="eyebrow">Monday, October 14</p>
           <h1>Calorie Tracker</h1>
         </div>
-        <button type="button" className="ghost-button" onClick={authenticateAsDemoUser}>
-          Login as demo user
-        </button>
+        <div className="topbar-actions">
+          <span className="streak-badge">7 day streak</span>
+          <button type="button" className="ghost-button" onClick={authenticateAsDemoUser}>
+            Demo profile
+          </button>
+        </div>
       </header>
 
       <div className="noncompliance-banner">
@@ -291,6 +319,7 @@ export function App() {
               <strong>{remainingCalories}</strong>
             </div>
           </div>
+          <p className="estimate-note">Your target is an estimate based on your current profile.</p>
         </section>
 
         <section className="card">
@@ -413,9 +442,19 @@ export function App() {
                   <span>{food.calories} kcal</span>
                   <span>{food.protein}g protein</span>
                 </div>
-                <button type="button" className="small-button" onClick={() => addFoodEntry(food)}>
-                  Add {food.name}
-                </button>
+                <div className="food-actions">
+                  <button
+                    type="button"
+                    className={favoriteFoodIds.includes(food.id) ? 'favorite-button active' : 'favorite-button'}
+                    aria-label={`${favoriteFoodIds.includes(food.id) ? 'Remove' : 'Add'} ${food.name} favorite`}
+                    onClick={() => toggleFavorite(food.id)}
+                  >
+                    {favoriteFoodIds.includes(food.id) ? '★' : '☆'}
+                  </button>
+                  <button type="button" className="small-button" onClick={() => addFoodEntry(food)}>
+                    Add {food.name}
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -475,19 +514,58 @@ export function App() {
                   ) : (
                     entries.map((entry) => (
                       <div key={entry.id} className="meal-entry">
-                        <div>
+                        <div className="meal-entry-heading">
                           <strong>{entry.name}</strong>
                           <span>
                             {entry.quantity} × {entry.serving}
                           </span>
                         </div>
-                        <span>{entry.calories * entry.quantity} kcal</span>
+                        <div className="entry-controls">
+                          <input
+                            aria-label={`${entry.name} quantity`}
+                            type="number"
+                            min="0.25"
+                            step="0.25"
+                            value={entry.quantity}
+                            onChange={(event) => updateEntryQuantity(entry.id, Number(event.target.value))}
+                          />
+                          <span>{Math.round(entry.calories * entry.quantity)} kcal</span>
+                          <button
+                            type="button"
+                            className="delete-button"
+                            aria-label={`Delete ${entry.name}`}
+                            onClick={() => deleteEntry(entry.id)}
+                          >
+                            Remove
+                          </button>
+                        </div>
                       </div>
                     ))
                   )}
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        <section className="card history-card">
+          <div className="section-header">
+            <div>
+              <p className="eyebrow">Last 7 tracked days</p>
+              <h3>Weekly rhythm</h3>
+            </div>
+            <strong>{Object.keys(weeklyCalories).length} days logged</strong>
+          </div>
+          <div className="history-bars" aria-label="Weekly calorie history">
+            {Object.entries(weeklyCalories).slice(-7).map(([date, calories]) => (
+              <div className="history-day" key={date}>
+                <div className="history-bar-track">
+                  <span style={{ height: `${Math.min((calories / target) * 100, 100)}%` }} />
+                </div>
+                <strong>{Math.round(calories)}</strong>
+                <span>{date.slice(5)}</span>
+              </div>
+            ))}
           </div>
         </section>
       </main>
